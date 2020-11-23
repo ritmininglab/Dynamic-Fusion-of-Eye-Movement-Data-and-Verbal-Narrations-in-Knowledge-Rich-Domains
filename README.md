@@ -19,9 +19,18 @@ This is a matlab implementation of the data fusion framework as described in our
 
 For the demo of split-merge-switch sampler on synthetic data, start matlab and run demo.m
 
-For the demo of the proposed framework on eye movement and verbal narration data, start matlab and run main.m
+For the demo of the proposed framework on eye movement and verbal narration data, start matlab and run main.m 
 
 For the evaluation on supervised tasks, use the command: python eval.py
+
+## Dataset
+
+The data is stored in the following files: 
+* NarrationMatrixNoEye.csv: stores verbal narration data as word indices
+* EyeMatrix.csv: stores eye movement data as compact representations
+* Dictionary.csv: stores actual words with corresponding indices
+* Idx2PosMatrix.csv: stores the matching between two modals
+* EyePlot.csv: stores eye movement data for visualization
 
 ## Question
 
@@ -39,4 +48,4 @@ Please cite our paper if you use this code in your own work:
   volume={33},
   year={2020}
 }
-```
+``` for a specific dataset.
