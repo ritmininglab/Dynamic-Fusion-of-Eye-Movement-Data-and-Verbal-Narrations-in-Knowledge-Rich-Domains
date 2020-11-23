@@ -18,7 +18,9 @@ This is a matlab implementation of the data fusion framework as described in our
 ## Run the demo
 
 For the demo of split-merge-switch sampler on synthetic data, start matlab and run demo.m
-For the demo of the proposed framework on eye movement and verbal narration data, start matlab and run main.m 
+
+For the demo of the proposed framework on eye movement and verbal narration data, start matlab and run main.m
+
 For the evaluation on supervised tasks, use the command: python eval.py
 
 ## Question
