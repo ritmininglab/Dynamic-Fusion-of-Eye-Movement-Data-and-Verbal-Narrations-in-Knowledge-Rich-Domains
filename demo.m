@@ -2,10 +2,10 @@
 
 
 rng(0);
-maxIter = 500;
+maxIter = 100;
 csd_basic = 1;
-useSM1 = 0;
-useSM2 = 0;
+useSM1 = 1;
+useSM2 = 1;
 printbasic = 0;
 printSM = 0;
 iterSMskip = 1;
@@ -91,7 +91,7 @@ for p1 = 1:n__pt
     trans_eye_t0(1, p1) = sum( pt_asgn(:,1+lag_eye) == p1);
 end
 betavec1 = ones(1, n__pt+1) / (n__pt+1);
-betavec1 = ptHyperSample([trans_eye_t0; trans_eye], betavec1, alpha1, igamma1);
+betavec1 = patternHyperSample([trans_eye_t0; trans_eye], betavec1, alpha1, igamma1);
 trans_prob_eye = SampleTransitionMatrix(trans_eye, alpha1 * betavec1);
 trans_prob_eye_t0 = SampleTransitionT0(trans_eye_t0, alpha1 * betavec1);
 
@@ -473,7 +473,7 @@ for iter = 1:maxIter
         for p1 = 1:n__pt
             trans_eye_t0(1, p1) = sum( pt_asgn(:,1+lag_eye) == p1);
         end
-        betavec1 = ptHyperSample([trans_eye_t0; trans_eye], betavec1, alpha1, igamma1);
+        betavec1 = patternHyperSample([trans_eye_t0; trans_eye], betavec1, alpha1, igamma1);
         trans_prob_eye = SampleTransitionMatrix(trans_eye, alpha1 * betavec1);
         trans_prob_eye_t0 = SampleTransitionT0(trans_eye_t0, alpha1 * betavec1);
         
@@ -589,7 +589,7 @@ for iter = 1:maxIter
                 transalt_t0(1, p1) = sum( pasgn(:,1+lag_eye) == p1);
             end
             betavec1alt = ones(1, npt+1) / (npt+1);
-            betavec1alt = ptHyperSample([transalt_t0; transalt], betavec1alt, alpha1, igamma1);
+            betavec1alt = patternHyperSample([transalt_t0; transalt], betavec1alt, alpha1, igamma1);
             
             pcsplit = funcPChigh1t0([transalt_t0; transalt], npt, alpha1, betavec1alt);
             transold = ( trans_eye - d0*eye(n__pt) ) - c0;
@@ -760,7 +760,7 @@ for iter = 1:maxIter
                 transalt_t0(1, p1) = sum( pasgn(:,1+lag_eye) == p1);
             end
             betavec1alt = ones(1, npt+1) / (npt+1);
-            betavec1alt = ptHyperSample([transalt_t0; transalt], betavec1alt, alpha1, igamma1);
+            betavec1alt = patternHyperSample([transalt_t0; transalt], betavec1alt, alpha1, igamma1);
             
             pcmerge = funcPChigh1t0([transalt_t0; transalt], npt, alpha1, betavec1alt);
             transold = ( trans_eye - d0*eye(n__pt) ) - c0;

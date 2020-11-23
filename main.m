@@ -2,9 +2,10 @@
 clear all;
 rng(1); 
 tryBeam = 1;
-ignoreTrans2phs = 1; 
-updateEye = 0; 
+ignoreTrans2phs = 0; 
+updateEye = 1; 
 updatetpcphs = 1;
+updatebasiceye =1;
 datatype = 4; 
 maxIter = 5000;
 phs3shrink = 0.5;
@@ -170,8 +171,8 @@ else
         end
     end
     betavec2 = ones(1, n_tpc+1) / (n_tpc+1);
-    betavec2 = tpcHyperSample(pie, betavec2, alpha2, igamma2);
-    pie_prob = SamplephstpcMatrix(pie, alpha2 * betavec2);
+    betavec2 = topicHyperSample(pie, betavec2, alpha2, igamma2);
+    pie_prob = SamplePhaseTopicMatrix(pie, alpha2 * betavec2);
     
 end
 
@@ -274,7 +275,7 @@ for p1 = 1:n_pt
     trans_eye_t0(1, p1) = sum( pt_asgn(:,1+lag_eye) == p1 );
 end
 betavec1 = ones(1, n_pt+1) / (n_pt+1);
-betavec1 = ptHyperSample([trans_eye_t0; funcConvert2Concat(transeye_cell,1)], betavec1, alpha1, igamma1);
+betavec1 = patternHyperSample([trans_eye_t0; funcConvert2Concat(transeye_cell,1)], betavec1, alpha1, igamma1);
 for j=1:n_phs
     transprobeye_cell{j,1} = SampleTransitionMatrix(transeye_cell{j,1}, alpha1 * betavec1);
 end
@@ -426,9 +427,6 @@ end
 
 
 for iter = 1:maxIter
-    if mod(iter, skipprintphscount)==0
-            sum(sum(phs_asgn==1)), sum(sum(phs_asgn==2)), sum(sum(phs_asgn==3)));
-    end
     
     if updatetpcphs ==1
         if csd_stickbreak2==1 
@@ -688,8 +686,8 @@ for iter = 1:maxIter
                 end
             end
             betavec2 = ones(1, n_tpc+1) / (n_tpc+1);
-            betavec2 = tpcHyperSample(pie, betavec2, alpha2, igamma2);
-            pie_prob = SamplephstpcMatrix(pie, alpha2 * betavec2);
+            betavec2 = topicHyperSample(pie, betavec2, alpha2, igamma2);
+            pie_prob = SamplePhaseTopicMatrix(pie, alpha2 * betavec2);
             
         end
         
@@ -1224,7 +1222,7 @@ for iter = 1:maxIter
             trans_eye_t0(1, p1) = sum( pt_asgn(:,1+lag_eye) == p1 );
         end
         betavec1 = ones(1, n_pt+1) / (n_pt+1);
-        betavec1 = ptHyperSample([trans_eye_t0; funcConvert2Concat(transeye_cell,1)], betavec1, alpha1, igamma1);
+        betavec1 = patternHyperSample([trans_eye_t0; funcConvert2Concat(transeye_cell,1)], betavec1, alpha1, igamma1);
         for j=1:n_phs
             transprobeye_cell{j,1} = SampleTransitionMatrix(transeye_cell{j,1}, alpha1 * betavec1);
         end
@@ -1346,7 +1344,7 @@ for iter = 1:maxIter
                 
                 if tryBeam==0
                     betavec1alt = ones(1, npt+1) / (npt+1);
-                    betavec1alt = ptHyperSample(funcConvert2Concat(transalt_cell,1), betavec1alt, alpha1, igamma1);
+                    betavec1alt = patternHyperSample(funcConvert2Concat(transalt_cell,1), betavec1alt, alpha1, igamma1);
                     
                     pcsplit = funcPChigh2(transalt_cell, npt, alpha1, betavec1alt);
                     pcmerge = funcPChigh2(transeye_cell, n_pt, alpha1, betavec1);
@@ -1358,7 +1356,7 @@ for iter = 1:maxIter
                     end
                     betavec1alt = ones(1, npt+1) / (npt+1);
                     [useful, useless] = funcConvert2ConcatT0(transalt_cell, transalt_t0,1);
-                    betavec1alt = ptHyperSample(useful, betavec1alt, alpha1, igamma1);
+                    betavec1alt = patternHyperSample(useful, betavec1alt, alpha1, igamma1);
                     
                     pcsplit = funcPChigh2t0(transalt_cell, transalt_t0, npt, alpha1, betavec1alt);
                     pcmerge = funcPChigh2t0(transeye_cell, trans_eye_t0, n_pt, alpha1, betavec1);
@@ -1571,7 +1569,7 @@ for iter = 1:maxIter
                 if tryBeam==0
                     
                     betavec1alt = ones(1, npt+1) / (npt+1);
-                    betavec1alt = ptHyperSample(funcConvert2Concat(transalt_cell,1), betavec1alt, alpha1, igamma1);
+                    betavec1alt = patternHyperSample(funcConvert2Concat(transalt_cell,1), betavec1alt, alpha1, igamma1);
                     
                     pcmerge = funcPChigh2(transalt_cell, npt, alpha1, betavec1alt);
                     pcsplit = funcPChigh2(transeye_cell, n_pt, alpha1, betavec1);
@@ -1583,7 +1581,7 @@ for iter = 1:maxIter
                     end
                     betavec1alt = ones(1, npt+1) / (npt+1);
                     [useful, useless] = funcConvert2ConcatT0(transalt_cell, transalt_t0,1);
-                    betavec1alt = ptHyperSample(useful, betavec1alt, alpha1, igamma1);
+                    betavec1alt = patternHyperSample(useful, betavec1alt, alpha1, igamma1);
                     
                     pcmerge = funcPChigh2t0(transalt_cell, transalt_t0, npt, alpha1, betavec1alt);
                     pcsplit = funcPChigh2t0(transeye_cell, trans_eye_t0, n_pt, alpha1, betavec1);
